@@ -1,8 +1,10 @@
+export type TransactionStatus = "SUCCESS" | "PENDING";
+
 export type Transaction = {
   id: string;
   amount: number;
   unique_code: number;
-  status: "SUCCESS" | "PENDING";
+  status: TransactionStatus;
   sender_bank: string;
   account_number: string;
   beneficiary_name: string;

@@ -3,7 +3,7 @@ import { FlatList, ActivityIndicator } from "react-native";
 import Axios from "axios";
 
 import { Transaction } from "../types";
-import TransactionItem from "./TransactionItem";
+import TransactionListItem from "./TransactionListItem";
 
 type Props = {};
 
@@ -45,7 +45,7 @@ const TransactionsList: FC<Props> = () => {
         <>{status === "fetching" && <ActivityIndicator size="large" />}</>
       }
       renderItem={({ item: transaction }) => {
-        return <TransactionItem transaction={transaction} />;
+        return <TransactionListItem transaction={transaction} />;
       }}
     />
   );

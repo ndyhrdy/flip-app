@@ -1,8 +1,9 @@
 import React from "react";
-import { Text } from "react-native";
+
+import TransactionsList from "../components/TransactionsList";
 
 const TransactionScreen = () => {
-  return <Text>Transactions List</Text>;
+  return <TransactionsList />;
 };
 
 export default TransactionScreen;

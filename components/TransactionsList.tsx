@@ -15,6 +15,7 @@ import { Transaction, TransactionResponse } from "../types";
 import TransactionsListItem from "./TransactionsListItem";
 import TransactionsSearchBox from "./TransactionsSearchBox";
 import TransactionsSort, { SortOption } from "./TransactionsSort";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type TransactionsListProps = {
   onGoToDetails: (transaction: Transaction) => any;
@@ -94,16 +95,18 @@ const TransactionsList: FC<TransactionsListProps> = ({ onGoToDetails }) => {
 
   return (
     <>
-      <View style={styles.header}>
-        <TransactionsSearchBox
-          term={term}
-          onChangeTerm={(newTerm) => setTerm(newTerm)}
-        />
-        <TransactionsSort
-          onChange={(newSort) => setSortBy(newSort)}
-          sortBy={sortBy}
-        />
-      </View>
+      <SafeAreaView style={styles.headerSafeArea}>
+        <View style={styles.header}>
+          <TransactionsSearchBox
+            term={term}
+            onChangeTerm={(newTerm) => setTerm(newTerm)}
+          />
+          <TransactionsSort
+            onChange={(newSort) => setSortBy(newSort)}
+            sortBy={sortBy}
+          />
+        </View>
+      </SafeAreaView>
       <FlatList
         contentContainerStyle={styles.scrollContent}
         data={listItems}
@@ -141,6 +144,9 @@ const TransactionsList: FC<TransactionsListProps> = ({ onGoToDetails }) => {
 };
 
 const styles = StyleSheet.create({
+  headerSafeArea: {
+    backgroundColor: "white",
+  },
   header: {
     alignItems: "stretch",
     backgroundColor: "white",

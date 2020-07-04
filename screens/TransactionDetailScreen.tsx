@@ -12,6 +12,7 @@ import { RouteProp } from "@react-navigation/native";
 import { MainNavigatorParamsList } from "../components/MainNavigator";
 import { renderBankName, renderCurrency, renderDate } from "../helpers";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = {
   navigation: StackNavigationProp<MainNavigatorParamsList, "TransactionDetail">;
@@ -22,88 +23,91 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
   const transaction = route.params.transaction;
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContent}>
-      <View style={styles.container}>
-        <View style={styles.section}>
-          <View style={styles.sectionContent}>
-            <Text style={styles.headingText}>
-              ID Transaksi: #{transaction.id}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.section}>
-          <View style={styles.sectionContent}>
-            <View style={styles.sectionRow}>
-              <Text
-                style={[styles.sectionRowItem, styles.fill, styles.headingText]}
-              >
-                Detail Transaksi
+    <SafeAreaView>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.section}>
+            <View style={styles.sectionContent}>
+              <Text style={styles.headingText}>
+                ID Transaksi: #{transaction.id}
               </Text>
-              <TouchableOpacity
-                style={styles.sectionRowItem}
-                onPress={() => navigation.goBack()}
-              >
-                <Text style={styles.headingTextAction}>Tutup</Text>
-              </TouchableOpacity>
             </View>
           </View>
-        </View>
-        <View style={[styles.section, styles.sectionLast]}>
-          <View style={styles.sectionContent}>
-            <Text style={styles.titleText}>
-              {renderBankName(transaction.sender_bank)}{" "}
-              <Feather name="arrow-right" size={20} />{" "}
-              {renderBankName(transaction.beneficiary_bank)}
-            </Text>
-            <View style={[styles.sectionRow, styles.detailSection]}>
-              <View style={[styles.sectionRowItem, styles.fill]}>
-                <Text style={styles.detailTitle}>
-                  {transaction.beneficiary_name}
+          <View style={styles.section}>
+            <View style={styles.sectionContent}>
+              <View style={styles.sectionRow}>
+                <Text
+                  style={[
+                    styles.sectionRowItem,
+                    styles.fill,
+                    styles.headingText,
+                  ]}
+                >
+                  Detail Transaksi
                 </Text>
-                <Text style={styles.detailValue}>
-                  {transaction.account_number}
-                </Text>
-              </View>
-              <View style={[styles.sectionRowItem, styles.fill]}>
-                <Text style={styles.detailTitle}>Nominal</Text>
-                <Text style={styles.detailValue}>
-                  {renderCurrency(transaction.amount)}
-                </Text>
-              </View>
-            </View>
-
-            <View style={[styles.sectionRow, styles.detailSection]}>
-              <View style={[styles.sectionRowItem, styles.fill]}>
-                <Text style={styles.detailTitle}>Berita Transfer</Text>
-                <Text style={styles.detailValue}>{transaction.remark}</Text>
-              </View>
-              <View style={[styles.sectionRowItem, styles.fill]}>
-                <Text style={styles.detailTitle}>Kode Unik</Text>
-                <Text style={styles.detailValue}>
-                  {transaction.unique_code.toString()}
-                </Text>
-              </View>
-            </View>
-
-            <View style={[styles.sectionRow, styles.detailSection]}>
-              <View style={[styles.sectionRowItem, styles.fill]}>
-                <Text style={styles.detailTitle}>Waktu Dibuat</Text>
-                <Text style={styles.detailValue}>
-                  {renderDate(transaction.created_at)}
-                </Text>
+                <TouchableOpacity
+                  style={styles.sectionRowItem}
+                  onPress={() => navigation.goBack()}
+                >
+                  <Text style={styles.headingTextAction}>Tutup</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
+          <View style={[styles.section, styles.sectionLast]}>
+            <View style={styles.sectionContent}>
+              <Text style={styles.titleText}>
+                {renderBankName(transaction.sender_bank)}{" "}
+                <Feather name="arrow-right" size={20} />{" "}
+                {renderBankName(transaction.beneficiary_bank)}
+              </Text>
+              <View style={[styles.sectionRow, styles.detailSection]}>
+                <View style={[styles.sectionRowItem, styles.fill]}>
+                  <Text style={styles.detailTitle}>
+                    {transaction.beneficiary_name}
+                  </Text>
+                  <Text style={styles.detailValue}>
+                    {transaction.account_number}
+                  </Text>
+                </View>
+                <View style={[styles.sectionRowItem, styles.fill]}>
+                  <Text style={styles.detailTitle}>Nominal</Text>
+                  <Text style={styles.detailValue}>
+                    {renderCurrency(transaction.amount)}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={[styles.sectionRow, styles.detailSection]}>
+                <View style={[styles.sectionRowItem, styles.fill]}>
+                  <Text style={styles.detailTitle}>Berita Transfer</Text>
+                  <Text style={styles.detailValue}>{transaction.remark}</Text>
+                </View>
+                <View style={[styles.sectionRowItem, styles.fill]}>
+                  <Text style={styles.detailTitle}>Kode Unik</Text>
+                  <Text style={styles.detailValue}>
+                    {transaction.unique_code.toString()}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={[styles.sectionRow, styles.detailSection]}>
+                <View style={[styles.sectionRowItem, styles.fill]}>
+                  <Text style={styles.detailTitle}>Waktu Dibuat</Text>
+                  <Text style={styles.detailValue}>
+                    {renderDate(transaction.created_at)}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    paddingTop: 24,
-  },
   container: {
     backgroundColor: "white",
   },

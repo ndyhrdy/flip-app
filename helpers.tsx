@@ -16,7 +16,7 @@ export const renderCurrency: (currency: number) => string = (currency) => {
     .toString()
     .split("")
     .reduceRight((agg, decimal, index) => {
-      return `${decimal}${(length - 1 - index) % 3 === 0 ? "," : ""}${agg}`;
+      return `${decimal}${(length - 1 - index) % 3 === 0 ? "." : ""}${agg}`;
     }, "")
     .slice(0, -1);
   return `Rp${currencyString}`;
@@ -27,6 +27,29 @@ export const renderStatus: (status: TransactionStatus) => string = (status) => {
     return "Berhasil";
   }
   return "Pengecekan";
+};
+
+export const renderDate: (dateString: string) => string = (dateString) => {
+  const dateToParse = dateString.split(" ")[0];
+  const date = new Date(dateToParse);
+  const localeMonths = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  return `${date.getDate()} ${
+    localeMonths[date.getMonth()]
+  } ${date.getFullYear()}`;
 };
 
 export const searchTransactions: (

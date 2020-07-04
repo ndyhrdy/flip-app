@@ -11,12 +11,14 @@ import {
 import Axios from "axios";
 
 import { searchTransactions } from "../helpers";
-import { Transaction } from "../types";
+import { Transaction, TransactionResponse } from "../types";
 import TransactionsListItem from "./TransactionsListItem";
 import TransactionsSearchBox from "./TransactionsSearchBox";
 import TransactionsSort, { SortOption } from "./TransactionsSort";
 
-type TransactionsListProps = {};
+type TransactionsListProps = {
+  onGoToDetails: (transaction: Transaction) => any;
+};
 type TransactionsListErrorProps = {
   onRetry: () => any;
 };
@@ -34,7 +36,7 @@ const TransactionsListError: FC<TransactionsListErrorProps> = ({ onRetry }) => {
   );
 };
 
-const TransactionsList: FC<TransactionsListProps> = () => {
+const TransactionsList: FC<TransactionsListProps> = ({ onGoToDetails }) => {
   const [error, setError] = useState<any>(null);
   const [sortBy, setSortBy] = useState<SortOption>(null);
   const [status, setStatus] = useState<Status>("idle");
@@ -46,13 +48,17 @@ const TransactionsList: FC<TransactionsListProps> = () => {
     }
     setStatus(refresh ? "refreshing" : "fetching");
     try {
-      const response = await Axios.get<{ [id: string]: Transaction }>(
+      const response = await Axios.get<{ [id: string]: TransactionResponse }>(
         "https://nextar.flip.id/frontend-test"
       );
       setTransactions(
         Object.entries(response.data).map(([id, transaction]) => {
           return {
             ...transaction,
+            status_dependent_date:
+              transaction.status === "SUCCESS"
+                ? transaction.completed_at
+                : transaction.created_at,
           };
         })
       );
@@ -78,9 +84,9 @@ const TransactionsList: FC<TransactionsListProps> = () => {
           ? -1
           : 0;
       case "date_asc":
-        return a.created_at < b.created_at ? -1 : 0;
+        return a.status_dependent_date < b.status_dependent_date ? -1 : 0;
       case "date_desc":
-        return a.created_at > b.created_at ? -1 : 0;
+        return a.status_dependent_date > b.status_dependent_date ? -1 : 0;
       default:
         return a.status === "PENDING" ? -1 : 0;
     }
@@ -122,7 +128,12 @@ const TransactionsList: FC<TransactionsListProps> = () => {
           />
         }
         renderItem={({ item: transaction }) => {
-          return <TransactionsListItem transaction={transaction} />;
+          return (
+            <TransactionsListItem
+              onPress={() => onGoToDetails(transaction)}
+              transaction={transaction}
+            />
+          );
         }}
       />
     </>

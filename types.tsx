@@ -1,6 +1,6 @@
 export type TransactionStatus = "SUCCESS" | "PENDING";
 
-export type Transaction = {
+export type TransactionResponse = {
   id: string;
   amount: number;
   unique_code: number;
@@ -13,4 +13,8 @@ export type Transaction = {
   created_at: string;
   completed_at: string;
   fee: number;
+};
+
+export type Transaction = TransactionResponse & {
+  status_dependent_date: string;
 };

@@ -1,24 +1,24 @@
 import React, { FC } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import { Transaction } from "../types";
-import { renderBankName, renderCurrency, renderStatus } from "../helpers";
-import { Feather } from "@expo/vector-icons";
+import {
+  renderBankName,
+  renderCurrency,
+  renderDate,
+  renderStatus,
+} from "../helpers";
 
 type Props = {
+  onPress: () => any;
   transaction: Transaction;
 };
 
-const TransactionListItem: FC<Props> = ({ transaction }) => {
-  const date = new Date(
-    (transaction.status === "SUCCESS"
-      ? transaction.completed_at
-      : transaction.created_at
-    ).replace(" ", "T")
-  ).toDateString();
-
+const TransactionListItem: FC<Props> = ({ onPress, transaction }) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         styles.container,
         transaction.status === "SUCCESS" && styles.containerSuccess,
@@ -35,7 +35,8 @@ const TransactionListItem: FC<Props> = ({ transaction }) => {
           {transaction.beneficiary_name}
         </Text>
         <Text style={styles.line2} numberOfLines={1}>
-          {renderCurrency(transaction.amount)} &bull; {date}
+          {renderCurrency(transaction.amount)} &bull;{" "}
+          {renderDate(transaction.status_dependent_date)}
         </Text>
       </View>
       <View
@@ -54,7 +55,7 @@ const TransactionListItem: FC<Props> = ({ transaction }) => {
           {renderStatus(transaction.status)}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

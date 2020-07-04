@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   section: {
-    borderColor: "lightgray",
+    borderColor: "whitesmoke",
     borderBottomWidth: 1,
     paddingVertical: 24,
   },
@@ -150,12 +150,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   detailTitle: {
-    fontSize: 16,
     fontWeight: "bold",
     textTransform: "uppercase",
   },
   detailValue: {
-    fontSize: 16,
+    lineHeight: 20,
   },
 });
 

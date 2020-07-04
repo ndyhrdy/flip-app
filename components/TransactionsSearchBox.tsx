@@ -9,7 +9,7 @@ type Props = {
 
 const TransactionsSearchBox: FC<Props> = ({ onChangeTerm, term }) => {
   return (
-    <>
+    <View style={styles.container}>
       <Feather
         color="lightgray"
         name="search"
@@ -22,11 +22,17 @@ const TransactionsSearchBox: FC<Props> = ({ onChangeTerm, term }) => {
         style={styles.input}
         value={term}
       />
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "stretch",
+    flex: 1,
+    flexDirection: "row",
+    paddingHorizontal: 8,
+  },
   input: {
     flex: 1,
     paddingHorizontal: 6,

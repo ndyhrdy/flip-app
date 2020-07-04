@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Axios from "axios";
 
 import { searchTransactions } from "../helpers";
@@ -15,7 +16,6 @@ import { Transaction, TransactionResponse } from "../types";
 import TransactionsListItem from "./TransactionsListItem";
 import TransactionsSearchBox from "./TransactionsSearchBox";
 import TransactionsSort, { SortOption } from "./TransactionsSort";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type TransactionsListProps = {
   onGoToDetails: (transaction: Transaction) => any;
@@ -95,7 +95,7 @@ const TransactionsList: FC<TransactionsListProps> = ({ onGoToDetails }) => {
 
   return (
     <>
-      <SafeAreaView style={styles.headerSafeArea}>
+      <SafeAreaView>
         <View style={styles.header}>
           <TransactionsSearchBox
             term={term}
@@ -144,19 +144,17 @@ const TransactionsList: FC<TransactionsListProps> = ({ onGoToDetails }) => {
 };
 
 const styles = StyleSheet.create({
-  headerSafeArea: {
-    backgroundColor: "white",
-  },
   header: {
     alignItems: "stretch",
     backgroundColor: "white",
+    borderRadius: 6,
     flexDirection: "row",
     height: 60,
-    paddingHorizontal: 8,
+    marginHorizontal: 8,
+    marginVertical: 6,
   },
   scrollContent: {
     paddingBottom: 48,
-    paddingTop: 6,
   },
   loadingSpinner: {
     paddingVertical: 24,

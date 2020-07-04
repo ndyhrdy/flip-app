@@ -4,6 +4,7 @@
     "slug": "flip-app",
     "version": "1.0.0",
     "orientation": "portrait",
+    "primaryColor": "#ff6347",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",

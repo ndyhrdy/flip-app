@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 import { Transaction } from "../types";
 import { renderBankName, renderCurrency, renderStatus } from "../helpers";
+import { Feather } from "@expo/vector-icons";
 
 type Props = {
   transaction: Transaction;
@@ -25,12 +26,15 @@ const TransactionListItem: FC<Props> = ({ transaction }) => {
       ]}
     >
       <View style={styles.content}>
-        <Text style={styles.title}>
-          {renderBankName(transaction.sender_bank)} &rarr;{" "}
+        <Text style={styles.title} numberOfLines={1}>
+          {renderBankName(transaction.sender_bank)}{" "}
+          <Feather name="arrow-right" size={16} />{" "}
           {renderBankName(transaction.beneficiary_bank)}
         </Text>
-        <Text style={styles.line1}>{transaction.beneficiary_name}</Text>
-        <Text style={styles.line2}>
+        <Text style={styles.line1} numberOfLines={1}>
+          {transaction.beneficiary_name}
+        </Text>
+        <Text style={styles.line2} numberOfLines={1}>
           {renderCurrency(transaction.amount)} &bull; {date}
         </Text>
       </View>

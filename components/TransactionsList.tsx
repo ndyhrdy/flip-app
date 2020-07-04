@@ -12,6 +12,8 @@ import Axios from "axios";
 
 import { Transaction } from "../types";
 import TransactionListItem from "./TransactionListItem";
+import TransactionsSearchBox from "./TransactionsSearchBox";
+import { searchTransactions } from "../helpers";
 
 type TransactionsListProps = {};
 type TransactionsListErrorProps = {
@@ -34,6 +36,7 @@ const TransactionsListError: FC<TransactionsListErrorProps> = ({ onRetry }) => {
 const TransactionsList: FC<TransactionsListProps> = () => {
   const [error, setError] = useState<any>(null);
   const [status, setStatus] = useState<Status>("idle");
+  const [term, setTerm] = useState<string>("");
   const [transactions, setTransactions] = useState<Array<Transaction>>([]);
   const fetch = async (refresh: boolean = false) => {
     if (status !== "idle") {
@@ -61,41 +64,49 @@ const TransactionsList: FC<TransactionsListProps> = () => {
   useEffect(() => {
     fetch();
   }, []);
+  const listItems = searchTransactions(transactions, term);
 
   return (
-    <FlatList
-      contentContainerStyle={styles.scrollContent}
-      data={transactions}
-      ListFooterComponent={
-        <>
-          {status === "fetching" && (
-            <ActivityIndicator
-              color="tomato"
-              size="large"
-              style={styles.loadingSpinner}
-            />
-          )}
-          {!!error && status === "idle" && transactions.length === 0 && (
-            <TransactionsListError onRetry={() => fetch(false)} />
-          )}
-        </>
-      }
-      refreshControl={
-        <RefreshControl
-          onRefresh={() => fetch(true)}
-          refreshing={status === "refreshing"}
-        />
-      }
-      renderItem={({ item: transaction }) => {
-        return <TransactionListItem transaction={transaction} />;
-      }}
-    />
+    <>
+      <TransactionsSearchBox
+        term={term}
+        onChangeTerm={(newTerm) => setTerm(newTerm)}
+      />
+      <FlatList
+        contentContainerStyle={styles.scrollContent}
+        data={listItems}
+        ListFooterComponent={
+          <>
+            {status === "fetching" && (
+              <ActivityIndicator
+                color="tomato"
+                size="large"
+                style={styles.loadingSpinner}
+              />
+            )}
+            {!!error && status === "idle" && transactions.length === 0 && (
+              <TransactionsListError onRetry={() => fetch(false)} />
+            )}
+          </>
+        }
+        refreshControl={
+          <RefreshControl
+            onRefresh={() => fetch(true)}
+            refreshing={status === "refreshing"}
+          />
+        }
+        renderItem={({ item: transaction }) => {
+          return <TransactionListItem transaction={transaction} />;
+        }}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 48,
+    paddingTop: 6,
   },
   loadingSpinner: {
     paddingVertical: 24,

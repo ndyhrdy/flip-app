@@ -1,18 +1,13 @@
 import React, { FC } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { RouteProp } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { MainNavigatorParamsList } from "../components/MainNavigator";
 import { renderBankName, renderCurrency, renderDate } from "../helpers";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Text from "../components/Text";
 
 type Props = {
   navigation: StackNavigationProp<MainNavigatorParamsList, "TransactionDetail">;
@@ -28,7 +23,7 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
         <View style={styles.container}>
           <View style={styles.section}>
             <View style={styles.sectionContent}>
-              <Text style={styles.headingText}>
+              <Text style={styles.headingText} strong>
                 ID Transaksi: #{transaction.id}
               </Text>
             </View>
@@ -37,6 +32,7 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
             <View style={styles.sectionContent}>
               <View style={styles.sectionRow}>
                 <Text
+                  strong
                   style={[
                     styles.sectionRowItem,
                     styles.fill,
@@ -56,14 +52,14 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
           </View>
           <View style={[styles.section, styles.sectionLast]}>
             <View style={styles.sectionContent}>
-              <Text style={styles.titleText}>
+              <Text style={styles.titleText} strong>
                 {renderBankName(transaction.sender_bank)}{" "}
                 <Feather name="arrow-right" size={20} />{" "}
                 {renderBankName(transaction.beneficiary_bank)}
               </Text>
               <View style={[styles.sectionRow, styles.detailSection]}>
                 <View style={[styles.sectionRowItem, styles.fill]}>
-                  <Text style={styles.detailTitle}>
+                  <Text style={styles.detailTitle} strong>
                     {transaction.beneficiary_name}
                   </Text>
                   <Text style={styles.detailValue}>
@@ -71,7 +67,9 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
                   </Text>
                 </View>
                 <View style={[styles.sectionRowItem, styles.fill]}>
-                  <Text style={styles.detailTitle}>Nominal</Text>
+                  <Text style={styles.detailTitle} strong>
+                    Nominal
+                  </Text>
                   <Text style={styles.detailValue}>
                     {renderCurrency(transaction.amount)}
                   </Text>
@@ -80,11 +78,15 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
 
               <View style={[styles.sectionRow, styles.detailSection]}>
                 <View style={[styles.sectionRowItem, styles.fill]}>
-                  <Text style={styles.detailTitle}>Berita Transfer</Text>
+                  <Text style={styles.detailTitle} strong>
+                    Berita Transfer
+                  </Text>
                   <Text style={styles.detailValue}>{transaction.remark}</Text>
                 </View>
                 <View style={[styles.sectionRowItem, styles.fill]}>
-                  <Text style={styles.detailTitle}>Kode Unik</Text>
+                  <Text style={styles.detailTitle} strong>
+                    Kode Unik
+                  </Text>
                   <Text style={styles.detailValue}>
                     {transaction.unique_code.toString()}
                   </Text>
@@ -93,7 +95,9 @@ const TransactionDetailScreen: FC<Props> = ({ navigation, route }) => {
 
               <View style={[styles.sectionRow, styles.detailSection]}>
                 <View style={[styles.sectionRowItem, styles.fill]}>
-                  <Text style={styles.detailTitle}>Waktu Dibuat</Text>
+                  <Text style={styles.detailTitle} strong>
+                    Waktu Dibuat
+                  </Text>
                   <Text style={styles.detailValue}>
                     {renderDate(transaction.created_at)}
                   </Text>
@@ -134,7 +138,6 @@ const styles = StyleSheet.create({
   },
   headingText: {
     fontSize: 16,
-    fontWeight: "bold",
     textTransform: "uppercase",
   },
   headingTextAction: {
@@ -143,18 +146,16 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 20,
-    fontWeight: "bold",
     marginBottom: 20,
   },
   detailSection: {
     marginBottom: 20,
   },
   detailTitle: {
-    fontWeight: "bold",
     textTransform: "uppercase",
   },
   detailValue: {
-    lineHeight: 20,
+    lineHeight: 24,
   },
 });
 

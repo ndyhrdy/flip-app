@@ -3,11 +3,12 @@ import {
   Dimensions,
   Modal,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
+
+import Text from "./Text";
 
 type Props = {
   onChange: (sort: SortOption) => any;
@@ -45,7 +46,9 @@ const TransactionsSort: FC<Props> = ({ onChange, sortBy }) => {
         style={styles.button}
         onPress={() => setShowModal(true)}
       >
-        <Text style={styles.buttonText}>{sortLabel}</Text>
+        <Text style={styles.buttonText} strong>
+          {sortLabel}
+        </Text>
         <Feather name="chevron-down" size={20} color="tomato" />
       </TouchableOpacity>
 
@@ -104,7 +107,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "tomato",
-    fontWeight: "bold",
     textAlign: "right",
   },
   modalOverlay: {

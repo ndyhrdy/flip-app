@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Feather } from "@expo/vector-icons";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Transaction } from "../types";
 import {
@@ -9,6 +9,7 @@ import {
   renderDate,
   renderStatus,
 } from "../helpers";
+import Text from "./Text";
 
 type Props = {
   onPress: () => any;
@@ -26,7 +27,7 @@ const TransactionListItem: FC<Props> = ({ onPress, transaction }) => {
       ]}
     >
       <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={1}>
+        <Text style={styles.title} numberOfLines={1} strong>
           {renderBankName(transaction.sender_bank)}{" "}
           <Feather name="arrow-right" size={16} />{" "}
           {renderBankName(transaction.beneficiary_bank)}
@@ -51,6 +52,7 @@ const TransactionListItem: FC<Props> = ({ onPress, transaction }) => {
             styles.badgeText,
             transaction.status === "SUCCESS" && styles.badgeSuccessText,
           ]}
+          strong
         >
           {renderStatus(transaction.status)}
         </Text>
@@ -83,7 +85,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
     lineHeight: 24,
   },
   line1: {
@@ -109,7 +110,6 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontSize: 12,
-    fontWeight: "bold",
     textAlign: "right",
   },
   badgeSuccessText: {

@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    fontFamily: "Lato_400Regular",
     paddingHorizontal: 6,
   },
   searchIcon: {

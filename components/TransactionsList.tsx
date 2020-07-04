@@ -50,13 +50,11 @@ const TransactionsList: FC<TransactionsListProps> = () => {
         "https://nextar.flip.id/frontend-test"
       );
       setTransactions(
-        Object.entries(response.data)
-          .map(([id, transaction]) => {
-            return {
-              ...transaction,
-            };
-          })
-          .sort((a) => (a.status === "PENDING" ? -1 : 0))
+        Object.entries(response.data).map(([id, transaction]) => {
+          return {
+            ...transaction,
+          };
+        })
       );
     } catch (error) {
       setError(error);
@@ -66,7 +64,27 @@ const TransactionsList: FC<TransactionsListProps> = () => {
   useEffect(() => {
     fetch();
   }, []);
-  const listItems = searchTransactions(transactions, term);
+  let listItems = searchTransactions(transactions, term);
+  listItems = listItems.sort((a, b) => {
+    switch (sortBy) {
+      case "beneficiary_name_asc":
+        return a.beneficiary_name.toLocaleLowerCase() <
+          b.beneficiary_name.toLocaleLowerCase()
+          ? -1
+          : 0;
+      case "beneficiary_name_desc":
+        return a.beneficiary_name.toLocaleLowerCase() >
+          b.beneficiary_name.toLocaleLowerCase()
+          ? -1
+          : 0;
+      case "date_asc":
+        return a.created_at < b.created_at ? -1 : 0;
+      case "date_desc":
+        return a.created_at > b.created_at ? -1 : 0;
+      default:
+        return a.status === "PENDING" ? -1 : 0;
+    }
+  });
 
   return (
     <>

@@ -1,19 +1,20 @@
 import React, { FC, useState, useEffect } from "react";
 import {
-  FlatList,
   ActivityIndicator,
+  FlatList,
   RefreshControl,
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import Axios from "axios";
 
-import { Transaction } from "../types";
-import TransactionListItem from "./TransactionListItem";
-import TransactionsSearchBox from "./TransactionsSearchBox";
 import { searchTransactions } from "../helpers";
+import { Transaction } from "../types";
+import TransactionsListItem from "./TransactionsListItem";
+import TransactionsSearchBox from "./TransactionsSearchBox";
+import TransactionsSort, { SortOption } from "./TransactionsSort";
 
 type TransactionsListProps = {};
 type TransactionsListErrorProps = {
@@ -35,6 +36,7 @@ const TransactionsListError: FC<TransactionsListErrorProps> = ({ onRetry }) => {
 
 const TransactionsList: FC<TransactionsListProps> = () => {
   const [error, setError] = useState<any>(null);
+  const [sortBy, setSortBy] = useState<SortOption>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [term, setTerm] = useState<string>("");
   const [transactions, setTransactions] = useState<Array<Transaction>>([]);
@@ -68,10 +70,16 @@ const TransactionsList: FC<TransactionsListProps> = () => {
 
   return (
     <>
-      <TransactionsSearchBox
-        term={term}
-        onChangeTerm={(newTerm) => setTerm(newTerm)}
-      />
+      <View style={styles.header}>
+        <TransactionsSearchBox
+          term={term}
+          onChangeTerm={(newTerm) => setTerm(newTerm)}
+        />
+        <TransactionsSort
+          onChange={(newSort) => setSortBy(newSort)}
+          sortBy={sortBy}
+        />
+      </View>
       <FlatList
         contentContainerStyle={styles.scrollContent}
         data={listItems}
@@ -96,7 +104,7 @@ const TransactionsList: FC<TransactionsListProps> = () => {
           />
         }
         renderItem={({ item: transaction }) => {
-          return <TransactionListItem transaction={transaction} />;
+          return <TransactionsListItem transaction={transaction} />;
         }}
       />
     </>
@@ -104,6 +112,13 @@ const TransactionsList: FC<TransactionsListProps> = () => {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    alignItems: "stretch",
+    backgroundColor: "white",
+    flexDirection: "row",
+    height: 60,
+    paddingHorizontal: 8,
+  },
   scrollContent: {
     paddingBottom: 48,
     paddingTop: 6,
